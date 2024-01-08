@@ -1,35 +1,43 @@
-import { useState, createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
-interface TestType {
-  test: number;
-  setTest: (value: number) => void;
+interface HomeContextData {
+  teste: string;
+  setTeste: (teste: string) => void;
 }
 
-const TestContext = createContext({} as TestType);
+const HomeContext = createContext({} as HomeContextData);
 
 function ComponentA() {
-  const { test, setTest } = useContext(TestContext);
-  return <div onClick={() => setTest(test * 2)}>Component A says : {test}</div>;
-}
-
-function handleIncrement(value: number, callback: (value: number) => void) {
-  callback(value + 1);
+  const { teste, setTeste } = useContext(HomeContext);
+  return (
+    <div>
+      <h1>Component A: {teste}</h1>
+      <button
+        onClick={() => {
+          setTeste("kajdshksajd");
+        }}
+      >
+        click
+      </button>
+    </div>
+  );
 }
 
 function ComponentB() {
-  const { test, setTest } = useContext(TestContext);
+  const { teste } = useContext(HomeContext);
   return (
-    <button onClick={() => handleIncrement(test, setTest)}>increment</button>
+    <div>
+      <h1>Component B: {teste}</h1>
+    </div>
   );
 }
 
 export function Home() {
-  const [test, setTest] = useState(0);
-
+  const [teste, setTeste] = useState("teste");
   return (
-    <TestContext.Provider value={{ test, setTest }}>
+    <HomeContext.Provider value={{ teste, setTeste }}>
       <ComponentA />
       <ComponentB />
-    </TestContext.Provider>
+    </HomeContext.Provider>
   );
 }
