@@ -1,49 +1,35 @@
-import { createContext, useContext, useState } from "react";
+import { useState, createContext, useContext } from "react";
 
-const CyclesContext = createContext(
-  {} as { activeCycle: number; setActiveCycle: (cycle: number) => void }
-);
-
-function NewCycleForm() {
-  const { activeCycle, setActiveCycle } = useContext(CyclesContext);
-  return (
-    <div>
-      <h1>NewCycleForm: {activeCycle}</h1>
-      <button
-        onClick={() => {
-          setActiveCycle(activeCycle + 1);
-        }}
-      >
-        click
-      </button>
-    </div>
-  );
+interface TestType {
+  test: number;
+  setTest: (value: number) => void;
 }
 
-function CountDown() {
-  const { activeCycle, setActiveCycle } = useContext(CyclesContext);
+const TestContext = createContext({} as TestType);
+
+function ComponentA() {
+  const { test, setTest } = useContext(TestContext);
+  return <div onClick={() => setTest(test * 2)}>Component A says : {test}</div>;
+}
+
+function handleIncrement(value: number, callback: (value: number) => void) {
+  callback(value + 1);
+}
+
+function ComponentB() {
+  const { test, setTest } = useContext(TestContext);
   return (
-    <div>
-      <h1>CountDown: {activeCycle}</h1>
-      <button
-        onClick={() => {
-          setActiveCycle(activeCycle + 2);
-        }}
-      >
-        click
-      </button>
-    </div>
+    <button onClick={() => handleIncrement(test, setTest)}>increment</button>
   );
 }
 
 export function Home() {
-  const [activeCycle, setActiveCycle] = useState(0);
+  const [test, setTest] = useState(0);
+
   return (
-    <CyclesContext.Provider value={{ activeCycle, setActiveCycle }}>
-      <div>
-        <NewCycleForm />
-        <CountDown />
-      </div>
-    </CyclesContext.Provider>
+    <TestContext.Provider value={{ test, setTest }}>
+      <ComponentA />
+      <ComponentB />
+    </TestContext.Provider>
   );
 }
