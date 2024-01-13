@@ -1,8 +1,8 @@
-import { ThemeProvider } from "styled-components";
-import { defaultTheme } from "./styles/themes/default";
+import { ThemeProvider } from 'styled-components'
+import { defaultTheme } from './styles/themes/default'
 
-import { Button } from "./components/Button";
-import { GlobalStyle } from "./styles/globals";
+import { Button } from './components/Button'
+import { GlobalStyle } from './styles/globals'
 
 export function App() {
   return (
@@ -14,5 +14,5 @@ export function App() {
 
       <GlobalStyle />
     </ThemeProvider>
-  );
+  )
 }
