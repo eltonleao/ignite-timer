@@ -28,7 +28,7 @@ const newCycleFormSchema = zod.object({
 type NewCycleFormData = zod.infer<typeof newCycleFormSchema>
 
 export function Home() {
-  const { register, handleSubmit, watch } = useForm<NewCycleFormData>({
+  const { register, handleSubmit, watch, reset } = useForm<NewCycleFormData>({
     resolver: zodResolver(newCycleFormSchema),
     defaultValues: {
       task: '',
@@ -38,6 +38,7 @@ export function Home() {
 
   function handleCreateNewCycle(data: unknown) {
     console.log(data)
+    reset()
   }
 
   const task = watch('task')
@@ -85,7 +86,7 @@ export function Home() {
           <span>0</span>
         </CountDownContainer>
 
-        <StartCountDownButton type="submit" disabled={!isSubmitDisabled}>
+        <StartCountDownButton type="submit" disabled={isSubmitDisabled}>
           <Play size={24} />
           Começar
         </StartCountDownButton>
