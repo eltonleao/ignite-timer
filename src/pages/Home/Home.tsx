@@ -20,15 +20,25 @@ const newCycleFormSchema = zod.object({
     .max(60, 'O tempo deve ser entre 5 e 60'),
 })
 
+// interface NewCycleFormData {
+//   task: string
+//   minutesAmout: number
+// }
+
+type NewCycleFormData = zod.infer<typeof newCycleFormSchema>
+
 export function Home() {
-  const { register, handleSubmit, watch, formState } = useForm({
+  const { register, handleSubmit, watch } = useForm<NewCycleFormData>({
     resolver: zodResolver(newCycleFormSchema),
+    defaultValues: {
+      task: '',
+      minutesAmout: 0,
+    },
   })
 
   function handleCreateNewCycle(data: unknown) {
     console.log(data)
   }
-  console.log(formState.errors)
 
   const task = watch('task')
   const isSubmitDisabled = !task
